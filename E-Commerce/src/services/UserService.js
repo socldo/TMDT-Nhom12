@@ -1,5 +1,7 @@
 const User = require("../models/UserModels");
-
+// const jwt = require("./jwtService");
+const bcrypt = require('bcryptjs');
+const { generalAccessToken , generalRefreshToken} = require("./jwtService");
 
 const createUser = async (newUser) => {
     const { name, email, password, phone } = newUser;
@@ -34,21 +36,98 @@ const createUser = async (newUser) => {
     }
 };
 
-const bcrypt = require('bcryptjs');
+
+const userSignIn = async ({email, password}) => {
+    return new Promise(async (resolve , reject) => {
+        try{
+            const checkUser = await User.findOne({
+                email : email,
+            })
+    
+            if(!checkUser){
+                resolve({
+                    status : "FAILED",
+                    message : "email không tồn tại trong hệ thống.",
+                })
+            }
+
+            const checkPassword = bcrypt.compareSync(password, checkUser.password);
+    
+            const access_token = await generalAccessToken({
+                id : checkUser._id,
+                isAdmin : checkUser.isAdmin
+            })
+
+            const refresh_token = await generalRefreshToken({
+                id : checkUser._id,
+                isAdmin : checkUser.isAdmin,
+            })
+
+            if(checkUser){
+                resolve({
+                    id : checkUser._id,
+                    status : "OK",
+                    message : "Đăng nhập thành công",
+                    access_token,
+                    refresh_token
+                })
+            }
+
+            else if(!checkUser){
+                resolve({
+                    status : "Failed",
+                    message : "Mật khẩu không đúng",
+                })
+            }
+        }
+        catch(e){
+           reject(e);
+        }
+    })
+    
+}
+
+const updateUser = (id , data) => {
+    return new Promise(async (resolve , reject) => {
+        try{
+            const checkUser = await User.findOne({
+                id : id,
+            })
+
+            if(checkUser){
+                const updatedUser = await User.findAndUpdate(id, data , {new : true});
+                resolve({
+                    status : "OK",
+                    message : "Thay đổi thành công.",
+                    data : data,
+                })
+            }
+
+            else if(!checkUser){
+                resolve({
+                    status : "Failed",
+                    message : "id người dùng không tồn tại trong hệ thống.",
+                })
+            }
+        }
+        catch(e){
+           reject(e);
+        }
+    })
+    
+}
 
  // Function to hash a password and return the hashed password as a string
 const hashPasswordSync = (password) => {
-    // Generate a salt (a random string used in the hashing process)
-    const salt = bcrypt.genSaltSync(10); // 10 is the number of salt rounds
-
     // Hash the password along with the salt synchronously
-    const hashedPassword = bcrypt.hashSync(password, salt);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
     return hashedPassword;
 };
 
-
 module.exports = {
-    createUser
+    createUser,
+    userSignIn,
+    updateUser
 };
 

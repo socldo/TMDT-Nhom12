@@ -1,5 +1,4 @@
 const UserService = require('../services/UserService');
-const bcrypt = require('bcryptjs');
 
 const createUser = async (req , resp) => {
     try{
@@ -26,7 +25,6 @@ const createUser = async (req , resp) => {
         }
 
         const response = await UserService.createUser(req.body);
-        console.log(response);
         return resp.status(200).json(response);
     }
     catch(e){
@@ -37,11 +35,63 @@ const createUser = async (req , resp) => {
     }
 }
 
+const userSignIn = async (req, resp) => {
+    try{
+        console.log(req.body);
+        const {email , password} = req.body;
+        
+        if(!email || !password){
+            resp.status(200).json({
+                status : 'ERR',
+                message : 'Khách hàng phải nhập đầy đủ thông tin.',
+            })
+        }
+        if(!checkValidEmail(email)){
+            resp.status(200).json({
+                status : 'ERR',
+                message : 'Email không đúng.',
+            })
+        }
+       
+        const response = await UserService.userSignIn(req.body);
+        return resp.status(200).json(response);
+    }
+    catch(e){
+        console.log(e);
+        return resp.status(404).json({
+            message : e,
+        });
+    }
+}
+
+const updateUser = async (req , resp) => {
+    try{
+        const id = req.params.id;
+        
+        if(!id){
+            return resp.status(500).json({
+                status : 'ERR',
+                message : 'Yêu cầu userId.',
+            })
+        }
+
+        const response = await UserService.updateUser(id , req.body);
+        return resp.status(200).json(response);
+    }
+    catch(e){
+        console.log(e);
+        return resp.status(404).json({
+            message : e,
+        });
+    }
+}
 const checkValidEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
 
 module.exports = {
-    createUser
+    createUser,
+    userSignIn,
+    updateUser,
 };
