@@ -91,7 +91,7 @@ const updateUser = (id , data) => {
     return new Promise(async (resolve , reject) => {
         try{
             const checkUser = await User.findOne({
-                id : id,
+                _id : id,
             })
 
             if(checkUser){
@@ -117,6 +117,67 @@ const updateUser = (id , data) => {
     
 }
 
+const deleteUser = (id) => {
+    return new Promise(async (resolve , reject) => {
+        try{
+            const checkUser = await User.findOne({
+                _id : id,
+            })
+
+            if(checkUser){
+                await User.findOneAndDelete(id, {new : true});
+                resolve({
+                    status : "OK",
+                    message : "Xóa người dùng thành công.",
+                })
+            }
+
+            else if(!checkUser){
+                resolve({
+                    status : "Failed",
+                    message : "id người dùng không tồn tại trong hệ thống.",
+                })
+            }
+        }
+        catch(e){
+           reject(e);
+        }
+    })
+}
+
+const getAll = () => {
+    return new Promise(async (resolve , reject) => {
+        try{
+            const allUser = await User.find();
+            resolve({
+                status : "OK",
+                data : allUser
+            })
+            
+        }
+        catch(e){
+           reject(e);
+        }
+    })
+}
+
+const getUserDetail = (id) => {
+    return new Promise(async (resolve , reject) => {
+        try{
+            const user = await User.findOne({
+                _id : id,
+            });
+            resolve({
+                status : "OK",
+                data : user
+            })
+            
+        }
+        catch(e){
+           reject(e);
+        }
+    })
+}
  // Function to hash a password and return the hashed password as a string
 const hashPasswordSync = (password) => {
     // Hash the password along with the salt synchronously
@@ -128,6 +189,9 @@ const hashPasswordSync = (password) => {
 module.exports = {
     createUser,
     userSignIn,
-    updateUser
+    updateUser,
+    deleteUser,
+    getAll,
+    getUserDetail,
 };
 

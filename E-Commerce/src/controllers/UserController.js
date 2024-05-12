@@ -85,6 +85,57 @@ const updateUser = async (req , resp) => {
         });
     }
 }
+
+const deleteUser = async ( req , resp) => {
+    try{
+        const id = req.params.id;
+
+        console.log(id);
+        if(!id){
+            return resp.status(500).json({
+                status : 'ERR',
+                message : 'Yêu cầu userId.',
+            })
+        }
+
+        const response = await UserService.deleteUser(id);
+        return resp.status(200).json(response);
+    }
+    catch(e){
+        console.log(e);
+        return resp.status(404).json({
+            message : e,
+        });
+    }
+}
+
+const getAll = async (req , resp) => {
+    try{
+        const response = await UserService.getAll();
+        return resp.status(200).json(response);
+    }
+    catch(e){
+        console.log(e);
+        return resp.status(404).json({
+            message : e,
+        });
+    }
+}
+
+const getDetail = async (req , resp) => {
+    try{
+        const id = req.params.id;
+        console.log(id);
+        const response = await UserService.getUserDetail(id);
+        return resp.status(200).json(response);
+    }
+    catch(e){
+        console.log(e);
+        return resp.status(404).json({
+            message : e,
+        })
+    }
+}
 const checkValidEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -94,4 +145,7 @@ module.exports = {
     createUser,
     userSignIn,
     updateUser,
+    deleteUser,
+    getAll,
+    getDetail,
 };
