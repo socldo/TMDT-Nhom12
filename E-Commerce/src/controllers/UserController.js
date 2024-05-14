@@ -2,26 +2,27 @@ const UserService = require('../services/UserService');
 
 const createUser = async (req , resp) => {
     try{
-        console.log(req.body);
+        console.log("body", req.body);
         const {name , email , password , confirmPassword , phone} = req.body;
         
-        if(!name || !email || !password || !confirmPassword || !phone){
-            resp.status(200).json({
+        if( !email || !password || !confirmPassword){
+            return resp.status(200).json({
                 status : 'ERR',
                 message : 'Khách hàng phải nhập đầy đủ thông tin.',
             })
         }
         if(!checkValidEmail(email)){
-            resp.status(200).json({
+            return resp.status(200).json({
                 status : 'ERR',
                 message : 'Email không đúng.',
             })
         }
         if(password !== confirmPassword){
-            resp.status(500).json({
+            return resp.status(200).json({
                 status : 'ERR',
                 message : 'Mật khẩu xác nhận phải trùng với mật khẩu muốn đặt.',
             })
+
         }
 
         const response = await UserService.createUser(req.body);

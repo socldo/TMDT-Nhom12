@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { generalAccessToken , generalRefreshToken} = require("./jwtService");
 
 const createUser = async (newUser) => {
+    console.log(newUser)
     const { name, email, password, phone } = newUser;
 
     try {
@@ -11,7 +12,7 @@ const createUser = async (newUser) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return {
-                status: "FAILED",
+                status: "ERR",
                 message: "Email đã tồn tại"
             };
         }
