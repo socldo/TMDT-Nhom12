@@ -47,8 +47,8 @@ const userSignIn = async ({email, password}) => {
     
             if(!checkUser){
                 resolve({
-                    status : "FAILED",
-                    message : "email không tồn tại trong hệ thống.",
+                    status : "ERR",
+                    message : "Email không tồn tại trong hệ thống.",
                 })
             }
 
@@ -76,7 +76,7 @@ const userSignIn = async ({email, password}) => {
 
             else if(!checkUser){
                 resolve({
-                    status : "Failed",
+                    status : "ERR",
                     message : "Mật khẩu không đúng",
                 })
             }

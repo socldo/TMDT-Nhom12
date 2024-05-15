@@ -9,5 +9,4 @@ router.put('/update-user/:id', userController.updateUser);
 router.delete('/delete-user/:id', authentication.authMiddleware , userController.deleteUser);
 router.get('/getAll', authentication.authMiddleware, userController.getAll );
 router.get('/getDetail/:id', authentication.authMiddleware, userController.getDetail);
-
 module.exports = router;

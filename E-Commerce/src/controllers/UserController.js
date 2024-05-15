@@ -42,20 +42,26 @@ const userSignIn = async (req, resp) => {
         const {email , password} = req.body;
         
         if(!email || !password){
-            resp.status(200).json({
+           return resp.status(200).json({
                 status : 'ERR',
                 message : 'Khách hàng phải nhập đầy đủ thông tin.',
             })
         }
         if(!checkValidEmail(email)){
-            resp.status(200).json({
+            return resp.status(200).json({
                 status : 'ERR',
                 message : 'Email không đúng.',
             })
         }
        
         const response = await UserService.userSignIn(req.body);
-        return resp.status(200).json(response);
+        const {refresh_token, ...newResponse} = response
+        resp.cookie('refresh_token', refresh_token, {
+            HttpOnly: true,
+            Secure: true,
+
+        })
+        return resp.status(200).json(newResponse);
     }
     catch(e){
         console.log(e);
