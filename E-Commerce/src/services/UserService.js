@@ -64,7 +64,7 @@ const userSignIn = async ({email, password}) => {
                 isAdmin : checkUser.isAdmin,
             })
 
-            if(checkUser){
+            if(checkUser && checkPassword){
                 resolve({
                     id : checkUser._id,
                     status : "OK",
@@ -73,8 +73,7 @@ const userSignIn = async ({email, password}) => {
                     refresh_token
                 })
             }
-
-            else if(!checkUser){
+            else{
                 resolve({
                     status : "ERR",
                     message : "Mật khẩu không đúng",
@@ -179,6 +178,8 @@ const getUserDetail = (id) => {
         }
     })
 }
+
+
  // Function to hash a password and return the hashed password as a string
 const hashPasswordSync = (password) => {
     // Hash the password along with the salt synchronously

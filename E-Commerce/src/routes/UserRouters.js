@@ -8,5 +8,8 @@ router.post('/sign-in', userController.userSignIn);
 router.put('/update-user/:id', userController.updateUser);
 router.delete('/delete-user/:id', authentication.authMiddleware , userController.deleteUser);
 router.get('/getAll', authentication.authMiddleware, userController.getAll );
-router.get('/getDetail/:id', authentication.authMiddleware, userController.getDetail);
+router.get('/getDetail/:id', authentication.authUserMiddleware, userController.getDetail);
+router.get('/refresh-token', userController.refreshToken);
+
+
 module.exports = router;
