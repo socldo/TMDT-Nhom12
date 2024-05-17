@@ -54,13 +54,12 @@ const userSignIn = async (req, resp) => {
                 message : 'Email không đúng.',
             })
         }
-       
         const response = await UserService.userSignIn(req.body);
         const {refresh_token, ...newResponse} = response
         resp.cookie('refresh_token', refresh_token, {
-            HttpOnly: true,
-            Secure: true,
-
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict'
         })
         return resp.status(200).json(newResponse);
     }
@@ -146,7 +145,7 @@ const getDetail = async (req , resp) => {
 
 const refreshToken = async (req , resp) => {
     try{
-        const token = req.headers.token;
+        const token = req.cookies.refresh_token;
         if(!token){
             resp.status(500).json({
                 status : "ERROR",
@@ -162,6 +161,19 @@ const refreshToken = async (req , resp) => {
         })
     }
 }
+const logoutUser = async (req , resp) => {
+    try{
+        resp.clearCookie('refresh_token')
+          return resp.status(200).json({
+                status: "OK",
+                message: "Logout successfully"
+            })
+    }catch (e) {
+        return resp.status(404).json({
+            message: e
+        })
+    }
+}
 const checkValidEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -174,5 +186,6 @@ module.exports = {
     deleteUser,
     getAll,
     getDetail,
-    refreshToken
+    refreshToken,
+    logoutUser
 };

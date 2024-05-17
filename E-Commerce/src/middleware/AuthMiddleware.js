@@ -12,9 +12,7 @@ const authMiddleware = (req , resp, next) => {
                 status : "Error"
             });
         }
-        const {payload} = user;
-        console.log(user);
-        if(payload?.isAdmin){
+        if(user?.isAdmin){
             next();
         }
         else{
@@ -28,7 +26,7 @@ const authMiddleware = (req , resp, next) => {
 
 const authUserMiddleware = (req , resp, next) => {
     console.log("check token : ", req.headers.token);
-    const token = req.headers.token;
+    const token = req.headers.token.split(' ')[1];
     const userId = req.params.id;
     jwt.verify(token, process.env.ACCESS_TOKEN , function(err , user) {
         if(err){
@@ -37,9 +35,7 @@ const authUserMiddleware = (req , resp, next) => {
                 status : "Error"
             });
         }
-        const {payload} = user;
-        console.log(user);
-        if(payload?.isAdmin || payload.id){
+        if(user?.isAdmin || user?.id === userId){
             next();
         }
         else{
