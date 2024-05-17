@@ -12,7 +12,7 @@ function HomePage() {
     const typeArr = ["Iphone", "Android"]
     return (
         <>
-            <div style={{width: '100%', padding: "0 120px"}}>
+            <div style={{ padding: "0 120px"}}>
                 <WrapperTypeProduct>
                     {typeArr.map(item => {
                         return (
@@ -32,7 +32,7 @@ function HomePage() {
                     <CardComponent/>
                 </WrapperProducts>
                 {/*<NavbarComponent/>*/}
-                <div style={{width: "100%", display: "flex", justifyContent: "center", marginTop: "10px"}}>
+                <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
                     <WrapperButtonMore textButton="Xem thêm"
                                        type = "outline"
                                        styleButton={{ width: '240px', height: '38px', color: 'rgb(26, 148, 255)', border: '1px solid'}}

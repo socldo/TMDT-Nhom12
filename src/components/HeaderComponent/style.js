@@ -2,9 +2,7 @@ import styled from "styled-components"
 import {Row} from "antd";
 export const WrapperHeader = styled(Row)`
     background: rgb(26, 148, 255);
-    gap: 16px;
     flex-wrap: nowrap;
-    width: 100%;
     padding: 10px 0;
 `
 
@@ -25,4 +23,11 @@ export const WrapperTextHeader = styled.span `
     font-size: 12px;
     justify-content: center;
     white-space: nowrap;
+`
+export const WrapperContentPopup = styled.p`
+    cursor: pointer;
+    &:hover {
+        background: rgb(26,148,255);
+        color: #fff;
+    }
 `

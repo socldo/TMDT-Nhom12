@@ -3,10 +3,12 @@ import {useState} from "react";
 import {WrapperInputStyle} from "./style";
 
 function InputForm(props) {
-    const {valueInput, setValueInput} = useState('');
     const {placeholder, style, ...rest} = props
+    const handleChangeInput = (e) => {
+        props.handleOnchange(e.target.value);
+    }
     return (
-            <WrapperInputStyle style={style} placeholder={placeholder} value={valueInput} {...rest} />
+            <WrapperInputStyle {...rest} style={style} placeholder={placeholder} value = {props.value} onChange = {handleChangeInput}/>
     );
 }
 
