@@ -31,7 +31,7 @@ const authUserMiddleware = (req , resp, next) => {
     jwt.verify(token, process.env.ACCESS_TOKEN , function(err , user) {
         if(err){
             return resp.status(404).json({
-                message : "The authentication.",
+                message : "The authentication error.",
                 status : "Error"
             });
         }
