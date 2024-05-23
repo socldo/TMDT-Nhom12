@@ -22,6 +22,7 @@ function SignInPage() {
         data => UserService.loginUser(data)
     )
     const {data, isPending, isSuccess} = mutation;
+    console.log("dataSignIn", data)
     useEffect(() => {
         if (isSuccess && data?.status !== "ERR") {
             message.success()

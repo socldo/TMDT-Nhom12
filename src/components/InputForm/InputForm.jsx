@@ -8,7 +8,7 @@ function InputForm(props) {
         props.handleOnchange(e.target.value);
     }
     return (
-            <WrapperInputStyle {...rest} style={style} placeholder={placeholder} value = {props.value} onChange = {handleChangeInput}/>
+            <WrapperInputStyle {...rest} style={style} placeholder={placeholder || "Nhap text"} value = {props.value} onChange = {handleChangeInput}/>
     );
 }
 

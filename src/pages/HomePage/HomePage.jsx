@@ -4,15 +4,13 @@ import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import slider1 from '../../assets/SliderImage/slide1.png'
 import slider2 from '../../assets/SliderImage/slide2.png'
 import CardComponent from "../../components/CardComponent/CardComponent";
-import NavbarComponent from "../../components/NavbarComponent/NavbarComponent";
-import {Button} from "antd";
-import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+
 
 function HomePage() {
     const typeArr = ["Iphone", "Android"]
     return (
         <>
-            <div style={{ padding: "0 120px"}}>
+            <div style={{ width:"1200px", margin: "auto"}}>
                 <WrapperTypeProduct>
                     {typeArr.map(item => {
                         return (
@@ -21,7 +19,8 @@ function HomePage() {
                     })}
                 </WrapperTypeProduct>
             </div>
-            <div id="container" style={{background: "#efefef", padding: '0 120px'}}>
+            <div style={{background:"#efefef"}}>
+            <div id="container" style={{width:"1200px", margin: "auto"}}>
                 <SliderComponent arrImages={[slider1, slider2]}/>
                 <WrapperProducts>
                     <CardComponent/>
@@ -38,6 +37,7 @@ function HomePage() {
                                        styleButton={{ width: '240px', height: '38px', color: 'rgb(26, 148, 255)', border: '1px solid'}}
                                        styleTextButton={{fontWeight: '500'}}/>
                 </div>
+            </div>
             </div>
         </>
     );

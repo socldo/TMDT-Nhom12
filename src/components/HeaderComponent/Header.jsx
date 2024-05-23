@@ -7,7 +7,7 @@ import {
     WrapperTextHeader,
     WrapperTitleHeader
 } from "./style";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {UserOutlined,DownOutlined,ShoppingCartOutlined} from '@ant-design/icons';
 import {ButtonInputSearch} from "../ButtonInputSearch/ButtonInputSearch";
 import {useNavigate} from "react-router-dom";
@@ -20,6 +20,7 @@ function Header() {
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
+    const[username, setUsername] = useState("");
     const handleNavigateLogin = () => {
         navigate('/sign-in');
     }
@@ -30,15 +31,21 @@ function Header() {
         dispatch(resetUser())
         setLoading(false)
     }
+    useEffect(() => {
+        setUsername(user?.name)
+    }, [user]);
     const  content = (
         <div>
             <WrapperContentPopup onClick={handleLogout}>Đăng xuất</WrapperContentPopup>
-            <WrapperContentPopup>Thông tin người dùng</WrapperContentPopup>
+            <WrapperContentPopup onClick={()=> {
+                navigate("/profile-user")
+            }}>Thông tin người dùng</WrapperContentPopup>
         </div>
     )
     return (
         <>
-            <WrapperHeader style={{alignItems: 'center'}}>
+            <div style={{ background: "rgb(26, 148, 255)"}}>
+            <WrapperHeader style={{ alignItems: 'center',width: "1200px", margin: "auto"}} >
                 <Col span={5}>
                     <WrapperTitleHeader>PHONE STORE</WrapperTitleHeader>
                 </Col>
@@ -54,10 +61,10 @@ function Header() {
                     <Loading isPending={loading}>
                     <WrapperAccountHeader style={{paddingLeft: '10px'}}>
                         <UserOutlined style={{fontSize: '30px'}}/>
-                        {user?.name ? (
+                        {user?.access_token ? (
                                 <>
                                     <Popover content={content} trigger="click">
-                                        <div style={{cursor: "pointer"}}>{user.name}</div>
+                                        <div style={{cursor: "pointer"}}>{username || user.email || "User"}</div>
                                     </Popover>
                                 </>
                             ) :
@@ -81,6 +88,7 @@ function Header() {
                 </Col>
 
             </WrapperHeader>
+            </div>
         </>
     );
 }

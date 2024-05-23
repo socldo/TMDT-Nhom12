@@ -28,9 +28,9 @@ function App() {
     }
     UserService.axiosJWT.interceptors.request.use(async (config) => {
         // Do something before request is sent
-        const currentTime = new Date()
+        const currentTime = Math.floor(Date.now() / 1000);
         const {storageDta, decoded} = handleDecode()
-        if(decoded?.exp < currentTime.getTime() / 1000) {
+        if(decoded?.exp < currentTime) {
             const data = await UserService.refreshToken()
             config.headers['token'] = `Bearer ${data?.access_token}`
         }

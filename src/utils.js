@@ -1,8 +1,8 @@
-export const isJsonStrig = (data) => {
+export const isJsonStrig = (str) => {
     try {
-        JSON.parse(data)
-    }catch (error) {
-        return false
+        JSON.parse(str);
+        return true;
+    } catch (e) {
+        return false;
     }
-    return true
-}
+};

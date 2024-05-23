@@ -14,7 +14,7 @@ function CardComponent() {
     return (
         <Card
             hoverable
-            style={{width: 200}}
+            style={{width: "228px"}}
             styles={{ body: { padding: "10px" } }}
             cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>}
         >
