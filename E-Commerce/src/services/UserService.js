@@ -1,7 +1,7 @@
 const User = require("../models/UserModels");
 // const jwt = require("./jwtService");
 const bcrypt = require('bcryptjs');
-const { generalAccessToken , generalRefreshToken} = require("./jwtService");
+const { generalAccessToken, generalRefreshToken } = require("./jwtService");
 
 const createUser = async (newUser) => {
     console.log(newUser)
@@ -20,7 +20,7 @@ const createUser = async (newUser) => {
         const createdUser = await User.create({
             name,
             email,
-            password : hashPasswordSync(password),
+            password: hashPasswordSync(password),
             phone
         });
 
@@ -38,149 +38,151 @@ const createUser = async (newUser) => {
 };
 
 
-const userSignIn = async ({email, password}) => {
-    return new Promise(async (resolve , reject) => {
-        try{
+const userSignIn = async ({ email, password }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
             const checkUser = await User.findOne({
-                email : email,
+                email: email,
             })
-    
-            if(!checkUser){
+
+            if (!checkUser) {
                 resolve({
-                    status : "ERR",
-                    message : "Email không tồn tại trong hệ thống.",
+                    status: "ERR",
+                    message: "Email không tồn tại trong hệ thống.",
                 })
             }
 
             const checkPassword = bcrypt.compareSync(password, checkUser.password);
-    
+
             const access_token = await generalAccessToken({
-                id : checkUser._id,
-                isAdmin : checkUser.isAdmin
+                id: checkUser._id,
+                isAdmin: checkUser.isAdmin
             })
 
             const refresh_token = await generalRefreshToken({
-                id : checkUser._id,
-                isAdmin : checkUser.isAdmin,
+                id: checkUser._id,
+                isAdmin: checkUser.isAdmin,
             })
 
-            if(checkUser && checkPassword){
+            if (checkUser && checkPassword) {
                 resolve({
-                    id : checkUser._id,
-                    status : "OK",
-                    message : "Đăng nhập thành công",
+                    id: checkUser._id,
+                    status: "OK",
+                    message: "Đăng nhập thành công",
                     access_token,
                     refresh_token
                 })
             }
-            else{
+            else {
                 resolve({
-                    status : "ERR",
-                    message : "Mật khẩu không đúng",
+                    status: "ERR",
+                    message: "Mật khẩu không đúng",
                 })
             }
         }
-        catch(e){
-           reject(e);
+        catch (e) {
+            reject(e);
         }
     })
-    
+
 }
 
-const updateUser = (id , data) => {
-    return new Promise(async (resolve , reject) => {
-        try{
+const updateUser = (id, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
             const checkUser = await User.findOne({
-                _id : id,
+                _id: id,
             })
 
-            if(checkUser){
-                const updatedUser = await User.findAndUpdate(id, data , {new : true});
+            if (checkUser) {
+                const updatedUser = await User.findOneAndUpdate({
+                    id, data
+                }, { new: true });
                 resolve({
-                    status : "OK",
-                    message : "Thay đổi thành công.",
-                    data : data,
+                    status: "OK",
+                    message: "Thay đổi thành công.",
+                    data: data,
                 })
             }
 
-            else if(!checkUser){
+            else if (!checkUser) {
                 resolve({
-                    status : "Failed",
-                    message : "id người dùng không tồn tại trong hệ thống.",
+                    status: "Failed",
+                    message: "id người dùng không tồn tại trong hệ thống.",
                 })
             }
         }
-        catch(e){
-           reject(e);
+        catch (e) {
+            reject(e);
         }
     })
-    
+
 }
 
 const deleteUser = (id) => {
-    return new Promise(async (resolve , reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             const checkUser = await User.findOne({
-                _id : id,
+                _id: id,
             })
 
-            if(checkUser){
-                await User.findOneAndDelete(id, {new : true});
+            if (checkUser) {
+                await User.findOneAndDelete(id, { new: true });
                 resolve({
-                    status : "OK",
-                    message : "Xóa người dùng thành công.",
+                    status: "OK",
+                    message: "Xóa người dùng thành công.",
                 })
             }
 
-            else if(!checkUser){
+            else if (!checkUser) {
                 resolve({
-                    status : "Failed",
-                    message : "id người dùng không tồn tại trong hệ thống.",
+                    status: "Failed",
+                    message: "id người dùng không tồn tại trong hệ thống.",
                 })
             }
         }
-        catch(e){
-           reject(e);
+        catch (e) {
+            reject(e);
         }
     })
 }
 
 const getAll = () => {
-    return new Promise(async (resolve , reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             const allUser = await User.find();
             resolve({
-                status : "OK",
-                data : allUser
+                status: "OK",
+                data: allUser
             })
-            
+
         }
-        catch(e){
-           reject(e);
+        catch (e) {
+            reject(e);
         }
     })
 }
 
 const getUserDetail = (id) => {
-    return new Promise(async (resolve , reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             const user = await User.findOne({
-                _id : id,
+                _id: id,
             });
             resolve({
-                status : "OK",
-                data : user
+                status: "OK",
+                data: user
             })
-            
+
         }
-        catch(e){
-           reject(e);
+        catch (e) {
+            reject(e);
         }
     })
 }
 
 
- // Function to hash a password and return the hashed password as a string
+// Function to hash a password and return the hashed password as a string
 const hashPasswordSync = (password) => {
     // Hash the password along with the salt synchronously
     const hashedPassword = bcrypt.hashSync(password, 10);
