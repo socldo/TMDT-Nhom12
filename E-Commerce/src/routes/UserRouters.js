@@ -6,7 +6,7 @@ const authentication = require('../middleware/AuthMiddleware');
 router.post('/sign-up', userController.createUser);
 router.post('/sign-in', userController.userSignIn);
 router.post('/log-out', userController.logoutUser);
-router.put('/update-user/:id', userController.updateUser);
+router.put('/update-user/:id', authentication.authUserMiddleware ,userController.updateUser);
 router.delete('/delete-user/:id', authentication.authMiddleware , userController.deleteUser);
 router.get('/getAll', authentication.authMiddleware, userController.getAll );
 router.get('/getDetail/:id', authentication.authUserMiddleware, userController.getDetail);
