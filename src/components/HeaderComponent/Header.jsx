@@ -15,7 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import * as UserService from '../../service/UserService'
 import {resetUser} from "../../redux/Slices/UserSlice";
 import Loading from "../LoadingComponent/Loading";
-function Header() {
+function Header({isHiddenSearch = false, isHiddenCart = false}) {
     const navigate = useNavigate();
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
@@ -37,6 +37,9 @@ function Header() {
     const  content = (
         <div>
             <WrapperContentPopup onClick={handleLogout}>Đăng xuất</WrapperContentPopup>
+            {user?.isAdmin  && (<WrapperContentPopup onClick={()=> {
+                navigate("/system/admin")
+            }}>Quản lý hệ thống</WrapperContentPopup>)}
             <WrapperContentPopup onClick={()=> {
                 navigate("/profile-user")
             }}>Thông tin người dùng</WrapperContentPopup>
@@ -45,25 +48,27 @@ function Header() {
     return (
         <>
             <div style={{ background: "rgb(26, 148, 255)"}}>
-            <WrapperHeader style={{ alignItems: 'center',width: "1200px", margin: "auto"}} >
+            <WrapperHeader style={{ alignItems: 'center',width: "1200px", margin: "auto", justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'unset'}} >
                 <Col span={5}>
                     <WrapperTitleHeader>PHONE STORE</WrapperTitleHeader>
                 </Col>
-                <Col span={14}>
-                    <ButtonInputSearch
-                        placeholder="input search text"
-                        size="large"
-                        textButton="Tìm kiếm"
-                        // onSearch={onSearch
-                    />
-                </Col>
-                <Col span={5} style={{display: 'flex', gap: '54px', alignItems: 'center'}}>
+                {!isHiddenSearch && (
+                    <Col span={14}>
+                        <ButtonInputSearch
+                            placeholder="input search text"
+                            size="large"
+                            textButton="Tìm kiếm"
+                            // onSearch={onSearch
+                        />
+                    </Col>
+                )}
+                  <Col span={5} style={{display: 'flex', gap: '54px', alignItems: 'center'}}>
                     <Loading isPending={loading}>
                     <WrapperAccountHeader style={{paddingLeft: '10px'}}>
                         <UserOutlined style={{fontSize: '30px'}}/>
                         {user?.access_token ? (
                                 <>
-                                    <Popover content={content} trigger="click">
+                                    <Popover content={content} trigger="click" >
                                         <div style={{cursor: "pointer"}}>{username || user.email || "User"}</div>
                                     </Popover>
                                 </>
@@ -79,14 +84,15 @@ function Header() {
                         }
                     </WrapperAccountHeader>
                     </Loading>
+                      {!isHiddenCart && (
                     <div>
                         <Badge count={4} size="small">
                             <ShoppingCartOutlined style={{fontSize: '30px', color: '#fff'}}/>
                         </Badge>
                         <WrapperTextHeader>Giỏ hàng</WrapperTextHeader>
                     </div>
+                          )}
                 </Col>
-
             </WrapperHeader>
             </div>
         </>
