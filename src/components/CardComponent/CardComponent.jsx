@@ -10,7 +10,13 @@ import {
     WrapperStyleTextSell
 } from "./style";
 
-function CardComponent() {
+function CardComponent(props) {
+    const {id} = props
+
+    const handleDetailProducts = (id) => {
+        navigator(`/product-details/${id}`)
+    }
+
     return (
         <Card
             hoverable

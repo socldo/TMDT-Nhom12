@@ -15,14 +15,20 @@ import {useDispatch, useSelector} from "react-redux";
 import * as UserService from '../../service/UserService'
 import {resetUser} from "../../redux/Slices/UserSlice";
 import Loading from "../LoadingComponent/Loading";
+import { searchProduct } from "../../redux/Slices/ProductSlice";
 function Header({isHiddenSearch = false, isHiddenCart = false}) {
     const navigate = useNavigate();
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const[username, setUsername] = useState("");
+    const[search, setSearch] = useState("");
     const handleNavigateLogin = () => {
         navigate('/sign-in');
+    }    
+    // Navigation to cart
+    const handleNavigateToCard = () => {
+        navigate('/cart');
     }
     const handleLogout =async () => {
         setLoading(true)
@@ -33,6 +39,7 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
     }
     useEffect(() => {
         setUsername(user?.name)
+        // onSearch(search)
     }, [user]);
     const  content = (
         <div>
@@ -45,6 +52,14 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
             }}>Thông tin người dùng</WrapperContentPopup>
         </div>
     )
+
+    const onSearch= (e) => {
+        // setSearch(e.targe.value)
+        // dispatch(searchProduct(e.targe.value))
+        // console.log(1);
+        console.log("e", e.targe.value);
+    }
+
     return (
         <>
             <div style={{ background: "rgb(26, 148, 255)"}}>
@@ -58,7 +73,8 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
                             placeholder="input search text"
                             size="large"
                             textButton="Tìm kiếm"
-                            // onSearch={onSearch
+                            variant={false}
+                            onChange={onSearch}
                         />
                     </Col>
                 )}
@@ -89,7 +105,7 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
                         <Badge count={4} size="small">
                             <ShoppingCartOutlined style={{fontSize: '30px', color: '#fff'}}/>
                         </Badge>
-                        <WrapperTextHeader>Giỏ hàng</WrapperTextHeader>
+                        <WrapperTextHeader onClick={handleNavigateToCard}>Giỏ hàng</WrapperTextHeader>
                     </div>
                           )}
                 </Col>

@@ -4,10 +4,13 @@ import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import slider1 from '../../assets/SliderImage/slide1.png'
 import slider2 from '../../assets/SliderImage/slide2.png'
 import CardComponent from "../../components/CardComponent/CardComponent";
+import { useSelector } from "react-redux";
 
 
 function HomePage() {
     const typeArr = ["Iphone", "Android"]
+    const products = useSelector((state) => state.products)
+    console.log('products',products);
     return (
         <>
             <div style={{ width:"1200px", margin: "auto"}}>

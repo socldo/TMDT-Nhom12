@@ -7,6 +7,7 @@ import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminPage from "../pages/AdminPage/AdminPage";
+import CartPage from "../pages/CartPage/CartPage";
 
 export const routes = [
     {
@@ -50,7 +51,16 @@ export const routes = [
         isShowHeader: false,
         isPrivate: true
     },
-
+    {
+        path: '/cart',
+        element: CartPage,
+        isShowHeader: false
+    },    
+    {
+        path: '/product-details/:id',
+        element: ProductDetailPage,
+        isShowHeader: false
+    },
     {
         path: '/*',
         element: NotFoundPage
