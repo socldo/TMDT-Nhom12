@@ -53,12 +53,12 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
         </div>
     )
 
-    const onSearch= (e) => {
-        // setSearch(e.targe.value)
-        // dispatch(searchProduct(e.targe.value))
-        // console.log(1);
-        console.log("e", e.targe.value);
-    }
+    // const onSearch= (e) => {
+    //     // setSearch(e.targe.value)
+    //     // dispatch(searchProduct(e.targe.value))
+    //     // console.log(1);
+    //     console.log("e", e.targe.value);
+    // }
 
     return (
         <>
@@ -74,7 +74,7 @@ function Header({isHiddenSearch = false, isHiddenCart = false}) {
                             size="large"
                             textButton="Tìm kiếm"
                             variant={false}
-                            onChange={onSearch}
+                            // onChange={onSearch}
                         />
                     </Col>
                 )}
