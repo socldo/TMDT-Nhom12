@@ -12,5 +12,4 @@ router.get('/getAll', authentication.authMiddleware, userController.getAll );
 router.get('/getDetail/:id', authentication.authUserMiddleware, userController.getDetail);
 router.get('/refresh-token', userController.refreshToken);
 
-
 module.exports = router;
