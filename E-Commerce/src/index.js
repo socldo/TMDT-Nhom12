@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 router(app);
-mongoose.connect(`mongodb://admin:adminmongo_staging%40aloapp.vn@172.16.10.90:27017/fanout_notification_beta?authSource=admin`)
+mongoose.connect(`mongodb://admin:adminmongo_staging%40aloapp.vn@172.16.10.90:27017/third_party_delivery_beta?authSource=admin`)
 .then(() => {
     console.log("connect success!");
 })
